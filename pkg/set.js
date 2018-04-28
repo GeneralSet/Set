@@ -83,15 +83,10 @@ init_deck() {
     wasm.__wbindgen_free(ret, len * 1);
     return realRet;
 }
-are_attributes_not_equal(arg0) {
+is_set(arg0) {
     const [ptr0, len0] = passStringToWasm(arg0);
     setGlobalArgument(len0, 0);
-    return (wasm.set_are_attributes_not_equal(this.ptr, ptr0)) !== 0;
-}
-are_attributes_equal(arg0) {
-    const [ptr0, len0] = passStringToWasm(arg0);
-    setGlobalArgument(len0, 0);
-    return (wasm.set_are_attributes_equal(this.ptr, ptr0)) !== 0;
+    return (wasm.set_is_set(this.ptr, ptr0)) !== 0;
 }
 }
 
