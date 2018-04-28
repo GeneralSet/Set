@@ -37,13 +37,11 @@ impl Set {
         if features <= 0 {
             return Set::generate_id(args);
         } else {
-            let mut index = 0;
-            while index < self.feature_options {
+            for index in 0..self.feature_options {
                 let mut new_args = args.clone();
                 new_args.push(index);
                 let id = self.generate_ids(features - 1, new_args, Vec::new());
                 ids.push(id);
-                index += 1;
             }
             return ids.join(",");
         }
