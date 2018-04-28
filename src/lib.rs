@@ -52,32 +52,33 @@ impl Set {
     pub fn init_deck(&self) -> String {
         self.generate_ids(self.number_of_features, Vec::new(), Vec::new())
     }
+
+    pub fn are_attributes_not_equal(&self, features: String) -> bool {
+        let features: Vec<&str> = features.split(",").collect();
+        for i in 0..features.len() {
+            for j in i + 1..features.len() {
+                if features[i] == features[j] {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    pub fn are_attributes_equal(&self, features: String) -> bool {
+        let features: Vec<&str> = features.split(",").collect();
+        for i in 1..features.len() {
+            if features[i] != features[i-1] {
+                return false;
+            }
+        }
+        return true;
+    }
 }
 
 
-// #![feature(proc_macro, wasm_custom_section, wasm_import_module)]
 //
-// extern crate wasm_bindgen;
 //
-// use wasm_bindgen::prelude::*;
 //
-// // #[wasm_bindgen]
-// // extern {
-// //     #[wasm_bindgen(js_namespace = console)]
-// //     fn log(s: &str);
-// //     #[wasm_bindgen(js_namespace = console, js_name = log)]
-// //     fn log_u32(a: u32);
-// //     #[wasm_bindgen(js_namespace = console, js_name = log)]
-// //     fn log_many(a: &str, b: &str);
-// // }
 //
-// #[wasm_bindgen]
-// pub struct Set {
-//     feature_options: i32,
-//     number_of_features: i32
-// }
-//
-// // static BOARD_SIZE: i32 = 12;
-// static FEATURE_OPTIONS: i32 = 3;
-// static NUMBER_OF_FEATURES: i32 = 4;
 //

@@ -39,6 +39,25 @@ function getGlobalArgument(arg) {
     return getUint32Memory()[idx];
 }
 
+const TextEncoder = typeof self === 'object' && self.TextEncoder
+    ? self.TextEncoder
+    : require('util').TextEncoder;
+
+let cachedEncoder = new TextEncoder('utf-8');
+
+function passStringToWasm(arg) {
+
+    const buf = cachedEncoder.encode(arg);
+    const ptr = wasm.__wbindgen_malloc(buf.length);
+    getUint8Memory().set(buf, ptr);
+    return [ptr, buf.length];
+}
+
+function setGlobalArgument(arg, i) {
+    const idx = globalArgumentPtr() / 4 + i;
+    getUint32Memory()[idx] = arg;
+}
+
 export class Set {
 
                 static __construct(ptr) {
@@ -63,6 +82,16 @@ init_deck() {
     const realRet = getStringFromWasm(ret, len);
     wasm.__wbindgen_free(ret, len * 1);
     return realRet;
+}
+are_attributes_not_equal(arg0) {
+    const [ptr0, len0] = passStringToWasm(arg0);
+    setGlobalArgument(len0, 0);
+    return (wasm.set_are_attributes_not_equal(this.ptr, ptr0)) !== 0;
+}
+are_attributes_equal(arg0) {
+    const [ptr0, len0] = passStringToWasm(arg0);
+    setGlobalArgument(len0, 0);
+    return (wasm.set_are_attributes_equal(this.ptr, ptr0)) !== 0;
 }
 }
 
