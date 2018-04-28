@@ -1,0 +1,14 @@
+{
+  "name": "set",
+  "collaborators": [
+    "Tim <hello@timothy.best>"
+  ],
+  "description": null,
+  "version": "0.1.0",
+  "license": null,
+  "repository": null,
+  "files": [
+    "set_bg.wasm"
+  ],
+  "main": "set.js"
+}
