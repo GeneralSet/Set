@@ -77,8 +77,70 @@ impl Set {
 }
 
 
+
+//   TODO:
+//   public isSet(ids: string[]): boolean {
+//     const selectedFeatures = ids.map((id) => id.split('_'));
+//     for (let i = 0; i < this.numberOfFeatures; i++) {
+//       const attributeValues = selectedFeatures.map((features) => {
+//         return features[i];
+//       });
+//       if (!(this.areAttributesEqual(attributeValues) ||
+//             this.areAttributesNotEqual (attributeValues))) {
+//         return false;
+//       }
+//     }
+//     return true;
+//   }
 //
+//   private numberOfSets(board: string[]): number {
+//     let count = 0;
+//     for (let i = 0; i < board.length; i++) {
+//       for (let j = i + 1; j < board.length; j++) {
+//         for (let k = j + 1; k < board.length; k++) {
+//           const isValidSet = this.isSet([board[i], board[j], board[k]]);
+//           if (isValidSet) {
+//             count++;
+//           }
+//         }
+//       }
+//     }
+//     return count;
+//   }
 //
+//   public hint(board: string[]): string[] {
+//     for (let i = 0; i < board.length; i++) {
+//       for (let j = i + 1; j < board.length; j++) {
+//         for (let k = j + 1; k < board.length; k++) {
+//           const potentialSet = [board[i], board[j], board[k]];
+//           const isValidSet = this.isSet([board[i], board[j], board[k]]);
+//           if (isValidSet) {
+//             return potentialSet;
+//           }
+//         }
+//       }
+//     }
+//     return [];
+//   }
 //
+//   public updateBoard(
+//     deck: string[],
+//     board: string[],
+//     numberOfSets: number
+//   ): {deck: string[], board: string[], numberOfSets: number} {
+//     while (board.length < this.boardSize || numberOfSets < 1) {
+//       if (deck.length < 1) {
+//         break;
+//       }
+//       for (let i = 0 ; i < 3; i++) {
+//         const randomIndex = Math.floor(Math.random() * deck.length);
+//         board.push(deck[randomIndex]);
+//         deck.splice(randomIndex, 1);
+//       }
+//       numberOfSets = this.numberOfSets(board);
+//     }
+//     numberOfSets = this.numberOfSets(board);
+//     return {deck, board, numberOfSets};
+//   }
 //
-//
+// }
