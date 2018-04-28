@@ -39,11 +39,34 @@ function getGlobalArgument(arg) {
     return getUint32Memory()[idx];
 }
 
-export function init_deck() {
-    const ret = wasm.init_deck();
+export class Set {
+
+                static __construct(ptr) {
+                    return new Set(ptr);
+                }
+
+                constructor(ptr) {
+                    this.ptr = ptr;
+                }
+
+            free() {
+                const ptr = this.ptr;
+                this.ptr = 0;
+                wasm.__wbg_set_free(ptr);
+            }
+        static new() {
+    return Set.__construct(wasm.set_new());
+}
+init_deck() {
+    const ret = wasm.set_init_deck(this.ptr);
     const len = getGlobalArgument(0);
     const realRet = getStringFromWasm(ret, len);
     wasm.__wbindgen_free(ret, len * 1);
     return realRet;
+}
+}
+
+export function __wbindgen_throw(ptr, len) {
+    throw new Error(getStringFromWasm(ptr, len));
 }
 
