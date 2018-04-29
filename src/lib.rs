@@ -7,9 +7,20 @@ use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
 pub struct Set {
-    board_size: usize,
-    number_of_features: usize,
-    feature_options: usize
+    pub board_size: usize,
+    pub number_of_features: usize,
+    pub feature_options: usize,
+    deck: Option<String>,
+    board: Option<String>,
+    pub sets: usize,
+}
+
+#[wasm_bindgen]
+extern {
+    #[wasm_bindgen(js_namespace = Math)]
+    fn random() -> f64;
+    #[wasm_bindgen(js_namespace = Math)]
+    fn floor(a: f64) -> usize;
 }
 
 #[wasm_bindgen]
@@ -18,7 +29,10 @@ impl Set {
         Set {
             board_size: 12,
             number_of_features: 4,
-            feature_options: 3
+            feature_options: 3,
+            deck: None,
+            board: None,
+            sets: 0,
         }
     }
 
@@ -133,6 +147,56 @@ impl Set {
         }
         String::from("")
     }
+
+    fn number_of_sets(&self, board: &Vec<&str>) -> usize {
+        let valid_sets = self.find_sets(&board, vec![], 0);
+        match valid_sets {
+            Some(x) => x.len(),
+            None => 0,
+        }
+    }
+
+    pub fn update_board(&self, deck: String, board: String) -> Set {
+        let mut board: Vec<&str> = board.split(",").collect();
+        let mut deck: Vec<&str> = deck.split(",").collect();
+
+        let mut number_of_sets = self.number_of_sets(&board);
+        while board.len() < self.board_size || number_of_sets < 1 {
+            if deck.len() < 1 {
+                number_of_sets = self.number_of_sets(&board);
+                break;
+            }
+            for _i in 0..self.feature_options {
+                let random_index = floor(random() * (deck.len() as f64));
+                let random_index = 0;
+                board.push(deck[random_index]);
+                deck.remove(random_index);
+            }
+            number_of_sets = self.number_of_sets(&board);
+        }
+        Set {
+            board_size: self.board_size,
+            number_of_features: self.number_of_features,
+            feature_options: self.feature_options,
+            deck: Some(deck.join(",")),
+            board: Some(board.join(",")),
+            sets: number_of_sets,
+        }
+    }
+
+    pub fn get_deck(&self) -> String {
+        match self.deck.clone() {
+            Some(x) => x,
+            None => String::from(""),
+        }
+    }
+
+    pub fn get_board(&self) -> String {
+        match self.board.clone() {
+            Some(x) => x,
+            None => String::from(""),
+        }
+    }
 }
 
 #[cfg(test)]
@@ -150,26 +214,13 @@ mod tests {
         assert_eq!(Set::are_options_same_or_diffrent(&vec!["0","1","0"]), false);
         assert_eq!(Set::are_options_same_or_diffrent(&vec!["0","1","2"]), true);
     }
-}
 
-//   public updateBoard(
-//     deck: string[],
-//     board: string[],
-//     numberOfSets: number
-//   ): {deck: string[], board: string[], numberOfSets: number} {
-//     while (board.length < this.boardSize || numberOfSets < 1) {
-//       if (deck.length < 1) {
-//         break;
-//       }
-//       for (let i = 0 ; i < 3; i++) {
-//         const randomIndex = Math.floor(Math.random() * deck.length);
-//         board.push(deck[randomIndex]);
-//         deck.splice(randomIndex, 1);
-//       }
-//       numberOfSets = this.numberOfSets(board);
-//     }
-//     numberOfSets = this.numberOfSets(board);
-//     return {deck, board, numberOfSets};
-//   }
-//
-// }
+    #[test]
+    fn number_of_sets() {
+        let set = Set::new();
+        assert_eq!(
+            set.number_of_sets(&vec!["0_0_0_0","1_1_1_1","2_2_2_2","2_2_2_1","2_2_2_0"]),
+            2
+        );
+    }
+}
