@@ -39,6 +39,12 @@ function getGlobalArgument(arg) {
     return getUint32Memory()[idx];
 }
 
+export function __wbg_f_alert_alert_n(arg0) {
+    let len0 = getGlobalArgument(0);
+    let v0 = getStringFromWasm(arg0, len0);
+    alert(v0);
+}
+
 const TextEncoder = typeof self === 'object' && self.TextEncoder
     ? self.TextEncoder
     : require('util').TextEncoder;
@@ -87,6 +93,15 @@ is_set(arg0) {
     const [ptr0, len0] = passStringToWasm(arg0);
     setGlobalArgument(len0, 0);
     return (wasm.set_is_set(this.ptr, ptr0)) !== 0;
+}
+hint(arg0) {
+    const [ptr0, len0] = passStringToWasm(arg0);
+    setGlobalArgument(len0, 0);
+    const ret = wasm.set_hint(this.ptr, ptr0);
+    const len = getGlobalArgument(0);
+    const realRet = getStringFromWasm(ret, len);
+    wasm.__wbindgen_free(ret, len * 1);
+    return realRet;
 }
 }
 

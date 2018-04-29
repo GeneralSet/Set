@@ -92,6 +92,47 @@ impl Set {
         }
         return true;
     }
+
+    fn find_sets(&self, board: &Vec<&str>, args: Vec<&str>, mut index: usize) -> Option<Vec<String>> {
+        if args.len() >= self.feature_options {
+            let str_args = args.join(",");
+            if self.is_set(str_args.clone()) {
+                return Some(vec![str_args]);
+            } else {
+                return None;
+            }
+        } else {
+            let mut sets = vec![];
+            for i in index..board.len() {
+                let id = board[i];
+
+                let mut new_args = args.clone();
+                new_args.push(id);
+
+                index += 1;
+                let set = self.find_sets(board, new_args, index);
+                match set {
+                    Some(x) => sets.extend(x),
+                    None => ()
+                }
+            }
+            return Some(sets);
+        }
+    }
+
+    pub fn hint(&self, board: String) -> String {
+        let board: Vec<&str> = board.split(",").collect();
+        match self.find_sets(&board, vec![], 0) {
+            Some(valid_sets) => {
+                match valid_sets.clone().pop() {
+                    Some(set) => return set,
+                    None => (),
+                }
+            },
+            None => (),
+        }
+        String::from("")
+    }
 }
 
 #[cfg(test)]
@@ -111,36 +152,6 @@ mod tests {
     }
 }
 
-//   private numberOfSets(board: string[]): number {
-//     let count = 0;
-//     for (let i = 0; i < board.length; i++) {
-//       for (let j = i + 1; j < board.length; j++) {
-//         for (let k = j + 1; k < board.length; k++) {
-//           const isValidSet = this.isSet([board[i], board[j], board[k]]);
-//           if (isValidSet) {
-//             count++;
-//           }
-//         }
-//       }
-//     }
-//     return count;
-//   }
-//
-//   public hint(board: string[]): string[] {
-//     for (let i = 0; i < board.length; i++) {
-//       for (let j = i + 1; j < board.length; j++) {
-//         for (let k = j + 1; k < board.length; k++) {
-//           const potentialSet = [board[i], board[j], board[k]];
-//           const isValidSet = this.isSet([board[i], board[j], board[k]]);
-//           if (isValidSet) {
-//             return potentialSet;
-//           }
-//         }
-//       }
-//     }
-//     return [];
-//   }
-//
 //   public updateBoard(
 //     deck: string[],
 //     board: string[],
