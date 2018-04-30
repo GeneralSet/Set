@@ -1,0 +1,8 @@
+language: rust
+
+install:
+  - nvm install 9
+  - npm install -g yarn
+
+script:
+  - yarn test
