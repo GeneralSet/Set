@@ -13,9 +13,9 @@
   ],
   "main": "pkg/set.js",
   "scripts": {
-    "preserve": "cargo build --target wasm32-unknown-unknown --release && wasm-bindgen target/wasm32-unknown-unknown/release/set.wasm --out-dir pkg/ --typescript",
+    "preserve": "cargo build --target wasm32-unknown-unknown --release && wasm-bindgen target/wasm32-unknown-unknown/release/set.wasm --out-dir pkg/ --typescript --browser",
     "serve": "cd demo && webpack-dev-server",
-    "pretest": "cargo build --target wasm32-unknown-unknown --release && wasm-bindgen target/wasm32-unknown-unknown/release/set.wasm --out-dir tests/build/ --nodejs",
+    "pretest": "cargo build --target wasm32-unknown-unknown --release && wasm-bindgen target/wasm32-unknown-unknown/release/set.wasm --out-dir tests/build/ --typescript --nodejs",
     "test": "cd tests && yarn install && yarn test"
   }
 }
