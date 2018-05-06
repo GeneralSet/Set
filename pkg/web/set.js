@@ -7,9 +7,7 @@ export function __wbg_f_random_js_random_n() {
     return __wbg_f_random_js_random_n_target();
 }
 
-export function random_f64() {
-    return wasm.random_f64();
-}
+const __wbg_f_log_console_log_n_target = console.log;
 
 let cachedDecoder = new TextDecoder('utf-8');
 
@@ -43,6 +41,16 @@ function globalArgumentPtr() {
 function getGlobalArgument(arg) {
     const idx = globalArgumentPtr() / 4 + arg;
     return getUint32Memory()[idx];
+}
+
+export function __wbg_f_log_console_log_n(arg0) {
+    let len0 = getGlobalArgument(0);
+    let v0 = getStringFromWasm(arg0, len0);
+    __wbg_f_log_console_log_n_target(v0);
+}
+
+export function random_f64() {
+    return wasm.random_f64();
 }
 
 let cachedEncoder = new TextEncoder('utf-8');
