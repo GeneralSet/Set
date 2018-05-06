@@ -210,7 +210,7 @@ mod tests {
 
     #[test]
     fn number_of_sets() {
-        let set = Set::new();
+        let set = Set::new(4, 3);
         assert_eq!(
             set.number_of_sets(&vec!["0_0_0_0","1_1_1_1","2_2_2_2","2_2_2_1","2_2_2_0"]),
             2
