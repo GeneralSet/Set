@@ -1,6 +1,7 @@
 #![feature(proc_macro, wasm_custom_section, wasm_import_module)]
 
 extern crate wasm_bindgen;
+extern crate rand;
 
 use std::collections::HashMap;
 use wasm_bindgen::prelude::*;
@@ -13,14 +14,6 @@ pub struct Set {
     deck: Option<String>,
     board: Option<String>,
     pub sets: usize,
-}
-
-#[wasm_bindgen]
-extern {
-    #[wasm_bindgen(js_namespace = Math)]
-    fn random() -> f64;
-    #[wasm_bindgen(js_namespace = Math)]
-    fn floor(a: f64) -> usize;
 }
 
 #[wasm_bindgen]
@@ -167,7 +160,7 @@ impl Set {
                 break;
             }
             for _i in 0..self.feature_options {
-                let random_index = floor(random() * (deck.len() as f64));
+                let random_index = (rand::random::<f64>() * (deck.len() as f64)).floor();
                 let random_index = 0;
                 board.push(deck[random_index]);
                 deck.remove(random_index);
