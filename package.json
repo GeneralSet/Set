@@ -4,7 +4,7 @@
     "Tim <hello@timothy.best>"
   ],
   "description": null,
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": null,
   "repository": null,
   "files": [
@@ -20,7 +20,7 @@
   "main": "pkg/set.js",
   "scripts": {
     "build-wasm": "cargo build --target wasm32-unknown-unknown --release",
-    "build-web": "wasm-bindgen target/wasm32-unknown-unknown/release/set.wasm --out-dir pkg/web --typescript --browser",
+    "build-web": "wasm-bindgen target/wasm32-unknown-unknown/release/set.wasm --out-dir pkg/web --browser",
     "build-node": "wasm-bindgen target/wasm32-unknown-unknown/release/set.wasm --out-dir pkg/node --typescript --nodejs",
     "preserve": "npm run build-wasm && npm run build-web",
     "serve": "cd demo && webpack-dev-server",

@@ -1,4 +1,4 @@
-import { Set } from "../pkg/set.js";
+import { Set } from "../pkg/web/set.js";
 
 function assertEq(a, b) {
   if (a !== b) {
