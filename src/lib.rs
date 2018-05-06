@@ -18,11 +18,11 @@ pub struct Set {
 
 #[wasm_bindgen]
 impl Set {
-    pub fn new() -> Set {
+    pub fn new(number_of_features: usize, feature_options: usize) -> Set {
         Set {
             board_size: 12,
-            number_of_features: 4,
-            feature_options: 3,
+            number_of_features: number_of_features,
+            feature_options: feature_options,
             deck: None,
             board: None,
             sets: 0,
