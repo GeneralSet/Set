@@ -1,5 +1,5 @@
 import test from 'ava';
-import { Set } from './build/set.js';
+import { Set } from '../pkg/node/set.js';
 
 test('#init_deck', async t => {
   const s = Set.new(4, 3);
