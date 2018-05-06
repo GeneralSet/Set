@@ -11,6 +11,13 @@ use wasm_bindgen::prelude::*;
 extern {
     #[wasm_bindgen(js_namespace = Math, js_name = random)]
     fn js_random() -> f64;
+    #[wasm_bindgen(js_namespace = console, js_name = log)]
+    fn console_log(msg: &str);
+}
+
+#[cfg(not(target_arch="wasm32"))]
+pub fn console_log(msg: &str) {
+    println!("{}", msg);
 }
 
 #[cfg(not(target_arch="wasm32"))]
@@ -37,6 +44,7 @@ pub struct Set {
 #[wasm_bindgen]
 impl Set {
     pub fn new(number_of_features: usize, feature_options: usize) -> Set {
+        console_log("Running in Rust!");
         Set {
             board_size: 12,
             number_of_features: number_of_features,

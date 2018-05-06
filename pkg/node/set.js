@@ -7,9 +7,7 @@ module.exports.__wbg_f_random_js_random_n = function() {
     return __wbg_f_random_js_random_n_target();
 };
 
-module.exports.random_f64 = function() {
-    return wasm.random_f64();
-};
+const __wbg_f_log_console_log_n_target = console.log;
 
 const TextDecoder = require('util').TextDecoder;
 
@@ -46,6 +44,16 @@ function getGlobalArgument(arg) {
     const idx = globalArgumentPtr() / 4 + arg;
     return getUint32Memory()[idx];
 }
+
+module.exports.__wbg_f_log_console_log_n = function(arg0) {
+    let len0 = getGlobalArgument(0);
+    let v0 = getStringFromWasm(arg0, len0);
+    __wbg_f_log_console_log_n_target(v0);
+};
+
+module.exports.random_f64 = function() {
+    return wasm.random_f64();
+};
 
 const TextEncoder = require('util').TextEncoder;
 
