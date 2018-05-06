@@ -1,4 +1,6 @@
 /* tslint:disable */
+export function random_f64(): number;
+
 export class Set {
 board_size: number
 number_of_features: number

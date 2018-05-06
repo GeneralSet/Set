@@ -1,6 +1,16 @@
 /* tslint:disable */
 import * as wasm from './set_bg';
 
+const __wbg_f_random_js_random_n_target = Math.random;
+
+export function __wbg_f_random_js_random_n() {
+    return __wbg_f_random_js_random_n_target();
+}
+
+export function random_f64() {
+    return wasm.random_f64();
+}
+
 const TextDecoder = typeof self === 'object' && self.TextDecoder
     ? self.TextDecoder
     : require('util').TextDecoder;
