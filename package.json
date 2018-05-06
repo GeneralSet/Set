@@ -8,8 +8,12 @@
   "license": null,
   "repository": null,
   "files": [
-    "pkg/set_bg.wasm",
-    "pkg/set.d.ts"
+    "pkg/node/set_bg.wasm",
+    "pkg/node/set.d.ts",
+    "pkg/node/set.js",
+    "pkg/web/set_bg.wasm",
+    "pkg/web/set.d.ts",
+    "pkg/web/set.js"
   ],
   "main": "pkg/set.js",
   "scripts": {
