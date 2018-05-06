@@ -6,6 +6,24 @@ extern crate rand;
 use std::collections::HashMap;
 use wasm_bindgen::prelude::*;
 
+#[cfg(target_arch="wasm32")]
+#[wasm_bindgen]
+extern {
+    #[wasm_bindgen(js_namespace = Math, js_name = random)]
+    fn js_random() -> f64;
+}
+
+#[cfg(not(target_arch="wasm32"))]
+pub fn random_f64() -> f64 {
+    return rand::random::<f64>();
+}
+
+#[cfg(target_arch="wasm32")]
+#[wasm_bindgen]
+pub fn random_f64() -> f64 {
+    return js_random();
+}
+
 #[wasm_bindgen]
 pub struct Set {
     pub board_size: usize,
@@ -160,7 +178,7 @@ impl Set {
                 break;
             }
             for _i in 0..self.feature_options {
-                let random_index = (rand::random::<f64>() * (deck.len() as f64)).floor();
+                let random_index = (random_f64() * (deck.len() as f64)).floor();
                 let random_index = 0;
                 board.push(deck[random_index]);
                 deck.remove(random_index);
