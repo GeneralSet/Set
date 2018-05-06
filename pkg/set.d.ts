@@ -5,7 +5,7 @@ number_of_features: number
 feature_options: number
 sets: number
 free(): void;
-static  new(): Set;
+static  new(arg0: number, arg1: number): Set;
 
  init_deck(): string;
 

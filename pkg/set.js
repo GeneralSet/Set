@@ -1,18 +1,6 @@
 /* tslint:disable */
 import * as wasm from './set_bg';
 
-const __wbg_f_random_random_n_target = Math.random;
-
-export function __wbg_f_random_random_n() {
-    return __wbg_f_random_random_n_target();
-}
-
-const __wbg_f_floor_floor_n_target = Math.floor;
-
-export function __wbg_f_floor_floor_n(arg0) {
-    return __wbg_f_floor_floor_n_target(arg0);
-}
-
 const TextDecoder = typeof self === 'object' && self.TextDecoder
     ? self.TextDecoder
     : require('util').TextDecoder;
@@ -105,8 +93,8 @@ set sets(arg0) {
                 this.ptr = 0;
                 wasm.__wbg_set_free(ptr);
             }
-        static new() {
-    return Set.__construct(wasm.set_new());
+        static new(arg0, arg1) {
+    return Set.__construct(wasm.set_new(arg0, arg1));
 }
 init_deck() {
     const ret = wasm.set_init_deck(this.ptr);
