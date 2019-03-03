@@ -1,0 +1,21 @@
+{
+  "name": "set",
+  "collaborators": [
+    "Tim <hello@timothy.best>"
+  ],
+  "description": "Internal game logic for set",
+  "version": "0.1.0",
+  "license": "MIT/Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GeneralSet/Set"
+  },
+  "files": [
+    "set_bg.wasm",
+    "set.js",
+    "set.d.ts"
+  ],
+  "module": "set.js",
+  "types": "set.d.ts",
+  "sideEffects": "false"
+}

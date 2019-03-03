@@ -2,16 +2,12 @@ language: rust
 cache: cargo
 rust:
   - nightly
-node_js:
-  - "9"
 
 before_install:
   - rustup target add wasm32-unknown-unknown
 
 install:
-  - npm install -g yarn
-  - cargo install --force wasm-bindgen-cli
+  - cargo install --force wasm-pack
 
 script:
   - cargo test
-  - yarn test

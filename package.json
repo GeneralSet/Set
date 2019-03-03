@@ -3,23 +3,20 @@
   "collaborators": [
     "Tim <hello@timothy.best>"
   ],
-  "description": null,
-  "version": "1.0.3",
-  "license": null,
-  "repository": null,
+  "description": "Internal game logic for set",
+  "license": "MIT/Apache-2.0",
+  "version": "1.0.4",
+  "repository": "https://github.com/GeneralSet/Set",
   "files": [
-    "pkg/node/set_bg.js",
-    "pkg/node/set_bg.wasm",
-    "pkg/node/set.d.ts"
+    "pkg/set_bg.wasm",
+    "pkg/set.d.ts"
   ],
-  "main": "pkg/node/set.js",
+  "main": "pkg/set.js",
   "scripts": {
-    "build-wasm": "cargo build --target wasm32-unknown-unknown --release",
-    "build-web": "wasm-bindgen target/wasm32-unknown-unknown/release/set.wasm --out-dir pkg/web --browser",
-    "build-node": "wasm-bindgen target/wasm32-unknown-unknown/release/set.wasm --out-dir pkg/node --typescript --nodejs",
-    "preserve": "npm run build-wasm && npm run build-web",
-    "serve": "cd demo && webpack-dev-server",
-    "pretest": "npm run build-wasm && npm run build-node",
-    "test": "cd tests && yarn install && yarn test"
+    "build-dev": "wasm-pack build --dev && rm pkg/.gitignore",
+    "build-prod": "wasm-pack build --release && rm pkg/.gitignore",
+    "build": "npm run build-prod",
+    "preserve": "npm run build-dev",
+    "serve": "cd demo && webpack-dev-server"
   }
 }
