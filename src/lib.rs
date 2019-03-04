@@ -174,28 +174,31 @@ impl Set {
     }
 
     pub fn update_board(&self, deck: String, board: String) -> Set {
-        let mut board: Vec<&str> = board.split(",").collect();
+        let mut board_array: Vec<&str> = Vec::new();
+        if board.len() > 1 {
+            board_array = board.split(",").collect()
+        }
         let mut deck: Vec<&str> = deck.split(",").collect();
 
-        let mut number_of_sets = self.number_of_sets(&board);
-        while board.len() < self.board_size || number_of_sets < 1 {
+        let mut number_of_sets = self.number_of_sets(&board_array);
+        while board_array.len() < self.board_size || number_of_sets < 1 {
             if deck.len() < 1 {
-                number_of_sets = self.number_of_sets(&board);
+                number_of_sets = self.number_of_sets(&board_array);
                 break;
             }
             for _i in 0..self.feature_options {
                 let random_index = (random_f64() * (deck.len() as f64)).floor() as usize;
-                board.push(deck[random_index]);
+                board_array.push(deck[random_index]);
                 deck.remove(random_index);
             }
-            number_of_sets = self.number_of_sets(&board);
+            number_of_sets = self.number_of_sets(&board_array);
         }
         Set {
             board_size: self.board_size,
             number_of_features: self.number_of_features,
             feature_options: self.feature_options,
             deck: Some(deck.join(",")),
-            board: Some(board.join(",")),
+            board: Some(board_array.join(",")),
             sets: number_of_sets,
         }
     }

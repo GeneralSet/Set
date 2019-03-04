@@ -8,6 +8,7 @@ function assertEq(a, b) {
   }
 }
 
+
 let set = Set.new(4, 3);
 assertEq(
   set.init_deck(),
@@ -27,8 +28,10 @@ assertEq(
 
 const board = set.update_board(
   '2_0_1_1,1_1_1_0,2_1_0_1,2_2_0_0,1_2_0_0,1_1_1_2,1_2_0_2,2_2_0_1,0_1_0_0',
-  '0_2_1_2,2_2_1_0,1_2_1_1'
+  ''
 )
 assertEq(board.sets, 2);
 assertEq(board.get_deck(), '');
+assertEq(board.get_board(), '');
+
 // assertEq(board.get_board(), '0_2_1_2,2_2_1_0,1_2_1_1,2_0_1_1,1_1_1_0,2_1_0_1,2_2_0_0,1_2_0_0,1_1_1_2,1_2_0_2,2_2_0_1,0_1_0_0');
