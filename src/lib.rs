@@ -42,7 +42,6 @@ pub struct Set {
 #[wasm_bindgen]
 impl Set {
     pub fn new(number_of_features: usize, feature_options: usize) -> Set {
-        console_log("Running in Rust!");
         Set {
             board_size: 12,
             number_of_features: number_of_features,
