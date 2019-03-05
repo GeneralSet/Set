@@ -5,6 +5,8 @@ authors = ["Tim <hello@timothy.best>"]
 description = "Internal game logic for set"
 license = "MIT/Apache-2.0"
 repository = "https://github.com/GeneralSet/Set"
+readme = "README.md"
+include = ["Cargo.toml", "src/**/*.rs", "README.md"]
 
 [lib]
 crate-type = ["cdylib"]
