@@ -3,6 +3,7 @@ extern crate rand;
 
 use std::collections::HashMap;
 use wasm_bindgen::prelude::*;
+use wasm_bindgen::throw_str;
 
 #[cfg(target_arch="wasm32")]
 #[wasm_bindgen]
@@ -106,6 +107,10 @@ impl Set {
     pub fn is_set(&self, ids: String) -> bool {
         let ids = ids.split(",");
         let selected_features: Vec<Vec<&str>> = ids.map(|id| id.split("_").collect()).collect();
+
+        if selected_features.len() != self.feature_options {
+            throw_str("incorrect number of cards selected");
+        }
 
         for i in 0..self.number_of_features {
             let mut option_values: Vec<&str> = Vec::new();
@@ -239,6 +244,31 @@ mod tests {
         assert_eq!(
             set.number_of_sets(&vec!["0_0_0_0","1_1_1_1","2_2_2_2","2_2_2_1","2_2_2_0"]),
             2
+        );
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_is_set_selection_to_small() {
+        let set = Set::new(4, 3);
+        set.is_set("0_0_0_0,1_1_1_1".to_string());
+    }
+
+    #[test]
+    fn test_is_set_all_different() {
+        let set = Set::new(4, 3);
+        assert_eq!(
+            set.is_set("0_0_0_0,1_1_1_1,2_2_2_2".to_string()),
+            true
+        );
+    }
+
+    #[test]
+    fn test_is_set_invalid_set() {
+        let set = Set::new(4, 3);
+        assert_eq!(
+            set.is_set("0_0_0_1,1_1_1_1,2_2_2_2".to_string()),
+            false
         );
     }
 }

@@ -15,8 +15,8 @@
   "scripts": {
     "build-dev": "wasm-pack build --dev && rm pkg/.gitignore",
     "build-prod": "wasm-pack build --release && rm pkg/.gitignore",
-    "build": "npm run build-prod",
-    "preserve": "npm run build-dev",
+    "build": "yarn build-prod",
+    "preserve": "yarn build-dev",
     "serve": "cd demo && webpack-dev-server"
   }
 }

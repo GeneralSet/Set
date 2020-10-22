@@ -4,12 +4,30 @@
 
 Core game logic for generalset.io
 
-rust-wasm intro
+## rust-wasm docs
+
 ```
 https://rustwasm.github.io/book/
 ```
 
-build
+## Test
+
 ```
-https://rustwasm.github.io/wasm-pack/book/commands/build.html
+cargo test
+```
+
+## Demo
+
+```
+yarn
+yarn serve
+```
+
+goto http://localhost:8080/
+open console for tests
+
+## Create Release
+
+```
+yarn build
 ```
