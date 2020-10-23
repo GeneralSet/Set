@@ -82,14 +82,14 @@ impl Set {
         self.generate_ids(self.number_of_features, Vec::new(), Vec::new())
     }
 
-    fn are_options_same_or_diffrent(features: &Vec<&str>) -> bool {
+    fn are_options_same_or_different(features: &Vec<&str>) -> bool {
         let mut features_hash: HashMap<&str, &str> = HashMap::new();
-        let mut all_diffrent = true;
+        let mut all_different = true;
         let mut all_same = true;
 
         for i in 0..features.len() {
             if features_hash.contains_key(features[i]) {
-                all_diffrent = false;
+                all_different = false;
             } else {
                 features_hash.insert(features[i], "");
             }
@@ -101,7 +101,7 @@ impl Set {
             }
         }
 
-        return all_diffrent || all_same;
+        return all_different || all_same;
     }
 
     pub fn is_set(&self, ids: String) -> bool {
@@ -121,7 +121,7 @@ impl Set {
                     None => return false,
                 }
             }
-            if !(Set::are_options_same_or_diffrent(&option_values)) {
+            if !(Set::are_options_same_or_different(&option_values)) {
                 return false;
             }
         }
@@ -235,17 +235,17 @@ mod tests {
     }
 
     #[test]
-    fn are_options_same_or_diffrent() {
+    fn are_options_same_or_different() {
         assert_eq!(
-            Set::are_options_same_or_diffrent(&vec!["0", "0", "0"]),
+            Set::are_options_same_or_different(&vec!["0", "0", "0"]),
             true
         );
         assert_eq!(
-            Set::are_options_same_or_diffrent(&vec!["0", "1", "0"]),
+            Set::are_options_same_or_different(&vec!["0", "1", "0"]),
             false
         );
         assert_eq!(
-            Set::are_options_same_or_diffrent(&vec!["0", "1", "2"]),
+            Set::are_options_same_or_different(&vec!["0", "1", "2"]),
             true
         );
     }
