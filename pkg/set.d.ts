@@ -15,10 +15,6 @@ export class Set {
 */
   static new(number_of_features: number, feature_options: number): Set;
 /**
-* @returns {string}
-*/
-  init_deck(): string;
-/**
 * @param {string} ids
 * @returns {boolean}
 */

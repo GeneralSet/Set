@@ -35,33 +35,16 @@ pub struct Set {
     pub board_size: usize,
     pub number_of_features: usize,
     pub feature_options: usize,
-    deck: Option<String>,
-    board: Option<String>,
+    deck: String,
+    board: String,
     pub sets: usize,
 }
 
 #[wasm_bindgen]
 impl Set {
-    pub fn new(number_of_features: usize, feature_options: usize) -> Set {
-        Set {
-            board_size: 12,
-            number_of_features: number_of_features,
-            feature_options: feature_options,
-            deck: None,
-            board: None,
-            sets: 0,
-        }
-    }
-
     fn generate_id(args: Vec<usize>) -> String {
-        let mut id = String::new();
-        for x in 0..args.len() {
-            if x > 0 {
-                id += &String::from("_");
-            }
-            id += &args[x].to_string();
-        }
-        id
+        let string_args: Vec<String> = args.iter().map(|a| a.to_string()).collect();
+        string_args.join("_")
     }
 
     fn generate_ids(&self, features: usize, args: Vec<usize>, mut ids: Vec<String>) -> String {
@@ -78,8 +61,21 @@ impl Set {
         }
     }
 
-    pub fn init_deck(&self) -> String {
+    fn init_deck(&self) -> String {
         self.generate_ids(self.number_of_features, Vec::new(), Vec::new())
+    }
+
+    pub fn new(number_of_features: usize, feature_options: usize) -> Set {
+        let new_set = Set {
+            board_size: 12,
+            number_of_features: number_of_features,
+            feature_options: feature_options,
+            deck: "".to_string(),
+            board: "".to_string(),
+            sets: 0,
+        };
+        let deck = new_set.init_deck();
+        new_set.update_board(deck, "".to_string())
     }
 
     fn are_options_same_or_different(features: &Vec<&str>) -> bool {
@@ -204,24 +200,18 @@ impl Set {
             board_size: self.board_size,
             number_of_features: self.number_of_features,
             feature_options: self.feature_options,
-            deck: Some(deck.join(",")),
-            board: Some(board_array.join(",")),
+            deck: deck.join(","),
+            board: board_array.join(","),
             sets: number_of_sets,
         }
     }
 
     pub fn get_deck(&self) -> String {
-        match self.deck.clone() {
-            Some(x) => x,
-            None => String::from(""),
-        }
+        self.deck.clone()
     }
 
     pub fn get_board(&self) -> String {
-        match self.board.clone() {
-            Some(x) => x,
-            None => String::from(""),
-        }
+        self.board.clone()
     }
 }
 
