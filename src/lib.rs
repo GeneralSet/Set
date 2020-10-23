@@ -181,10 +181,7 @@ impl Set {
     }
 
     fn fill_board(&self, deck: String, board: String) -> Set {
-        let mut board_array: Vec<&str> = Vec::new();
-        if board.len() > 1 {
-            board_array = board.split(",").collect()
-        }
+        let mut board_array: Vec<&str> = board.split(",").collect();
         let mut deck: Vec<&str> = deck.split(",").collect();
 
         let mut number_of_sets = self.number_of_sets(&board_array);
@@ -227,7 +224,15 @@ impl Set {
             deck.remove(random_index);
         }
 
-        self.fill_board(deck.join(","), board.join(","))
+        let s = Set {
+            board_size: self.board_size,
+            number_of_features: self.number_of_features,
+            feature_options: self.feature_options,
+            deck: deck.join(","),
+            board: board.join(","),
+            sets: 0,
+        };
+        s.fill_board(deck.join(","), board.join(","))
     }
 
     pub fn get_deck(&self) -> String {
