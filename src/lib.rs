@@ -181,7 +181,10 @@ impl Set {
     }
 
     fn fill_board(&self, deck: String, board: String) -> Set {
-        let mut board_array: Vec<&str> = board.split(",").collect();
+        let mut board_array: Vec<&str> = Vec::new();
+        if board.len() > 1 {
+            board_array = board.split(",").collect()
+        }
         let mut deck: Vec<&str> = deck.split(",").collect();
 
         let mut number_of_sets = self.number_of_sets(&board_array);
@@ -299,5 +302,22 @@ mod tests {
     fn test_is_set_invalid_set() {
         let set = Set::new(4, 3);
         assert_eq!(set.is_set("0_0_0_1,1_1_1_1,2_2_2_2".to_string()), false);
+    }
+
+    #[test]
+    fn test_update_board() {
+        let mut set = Set::new(4, 3);
+        let hint = set.hint(set.board.clone());
+        set = set.update_board(hint);
+        let new_deck: Vec<&str> = set.deck.split(",").collect();
+        assert_eq!(new_deck.len(), 66);
+        let hint = set.hint(set.board.clone());
+        set = set.update_board(hint);
+        let new_deck: Vec<&str> = set.deck.split(",").collect();
+        assert_eq!(new_deck.len(), 63);
+        let hint = set.hint(set.board.clone());
+        set = set.update_board(hint);
+        let new_deck: Vec<&str> = set.deck.split(",").collect();
+        assert_eq!(new_deck.len(), 60);
     }
 }
