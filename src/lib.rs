@@ -1,30 +1,30 @@
-extern crate wasm_bindgen;
 extern crate rand;
+extern crate wasm_bindgen;
 
 use std::collections::HashMap;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::throw_str;
 
-#[cfg(target_arch="wasm32")]
+#[cfg(target_arch = "wasm32")]
 #[wasm_bindgen]
-extern {
+extern "C" {
     #[wasm_bindgen(js_namespace = Math, js_name = random)]
     fn js_random() -> f64;
     #[wasm_bindgen(js_namespace = console, js_name = log)]
     fn console_log(msg: &str);
 }
 
-#[cfg(not(target_arch="wasm32"))]
+#[cfg(not(target_arch = "wasm32"))]
 pub fn console_log(msg: &str) {
     println!("{}", msg);
 }
 
-#[cfg(not(target_arch="wasm32"))]
+#[cfg(not(target_arch = "wasm32"))]
 pub fn random_f64() -> f64 {
     return rand::random::<f64>();
 }
 
-#[cfg(target_arch="wasm32")]
+#[cfg(target_arch = "wasm32")]
 #[wasm_bindgen]
 pub fn random_f64() -> f64 {
     return js_random();
@@ -95,7 +95,7 @@ impl Set {
             }
 
             if (i + 1) < features.len() {
-                if features[i] != features[i+1] {
+                if features[i] != features[i + 1] {
                     all_same = false;
                 }
             }
@@ -128,7 +128,12 @@ impl Set {
         return true;
     }
 
-    fn find_sets(&self, board: &Vec<&str>, args: Vec<&str>, mut index: usize) -> Option<Vec<String>> {
+    fn find_sets(
+        &self,
+        board: &Vec<&str>,
+        args: Vec<&str>,
+        mut index: usize,
+    ) -> Option<Vec<String>> {
         if args.len() >= self.feature_options {
             let str_args = args.join(",");
             if self.is_set(str_args.clone()) {
@@ -148,7 +153,7 @@ impl Set {
                 let set = self.find_sets(board, new_args, index);
                 match set {
                     Some(x) => sets.extend(x),
-                    None => ()
+                    None => (),
                 }
             }
             return Some(sets);
@@ -158,11 +163,9 @@ impl Set {
     pub fn hint(&self, board: String) -> String {
         let board: Vec<&str> = board.split(",").collect();
         match self.find_sets(&board, vec![], 0) {
-            Some(valid_sets) => {
-                match valid_sets.clone().pop() {
-                    Some(set) => return set,
-                    None => (),
-                }
+            Some(valid_sets) => match valid_sets.clone().pop() {
+                Some(set) => return set,
+                None => (),
             },
             None => (),
         }
@@ -228,21 +231,30 @@ mod tests {
 
     #[test]
     fn can_generate_an_id() {
-        assert_eq!(Set::generate_id(vec![0,0,0,0]), "0_0_0_0");
+        assert_eq!(Set::generate_id(vec![0, 0, 0, 0]), "0_0_0_0");
     }
 
     #[test]
     fn are_options_same_or_diffrent() {
-        assert_eq!(Set::are_options_same_or_diffrent(&vec!["0","0","0"]), true);
-        assert_eq!(Set::are_options_same_or_diffrent(&vec!["0","1","0"]), false);
-        assert_eq!(Set::are_options_same_or_diffrent(&vec!["0","1","2"]), true);
+        assert_eq!(
+            Set::are_options_same_or_diffrent(&vec!["0", "0", "0"]),
+            true
+        );
+        assert_eq!(
+            Set::are_options_same_or_diffrent(&vec!["0", "1", "0"]),
+            false
+        );
+        assert_eq!(
+            Set::are_options_same_or_diffrent(&vec!["0", "1", "2"]),
+            true
+        );
     }
 
     #[test]
     fn number_of_sets() {
         let set = Set::new(4, 3);
         assert_eq!(
-            set.number_of_sets(&vec!["0_0_0_0","1_1_1_1","2_2_2_2","2_2_2_1","2_2_2_0"]),
+            set.number_of_sets(&vec!["0_0_0_0", "1_1_1_1", "2_2_2_2", "2_2_2_1", "2_2_2_0"]),
             2
         );
     }
@@ -257,18 +269,12 @@ mod tests {
     #[test]
     fn test_is_set_all_different() {
         let set = Set::new(4, 3);
-        assert_eq!(
-            set.is_set("0_0_0_0,1_1_1_1,2_2_2_2".to_string()),
-            true
-        );
+        assert_eq!(set.is_set("0_0_0_0,1_1_1_1,2_2_2_2".to_string()), true);
     }
 
     #[test]
     fn test_is_set_invalid_set() {
         let set = Set::new(4, 3);
-        assert_eq!(
-            set.is_set("0_0_0_1,1_1_1_1,2_2_2_2".to_string()),
-            false
-        );
+        assert_eq!(set.is_set("0_0_0_1,1_1_1_1,2_2_2_2".to_string()), false);
     }
 }
