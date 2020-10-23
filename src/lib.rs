@@ -213,6 +213,10 @@ impl Set {
     pub fn get_board(&self) -> String {
         self.board.clone()
     }
+
+    pub fn is_end(&self) -> bool {
+        self.deck.len() == 0 && self.sets == 0
+    }
 }
 
 #[cfg(test)]
