@@ -25,11 +25,10 @@ export class Set {
 */
   hint(board: string): string;
 /**
-* @param {string} deck
-* @param {string} board
+* @param {string} set
 * @returns {Set}
 */
-  update_board(deck: string, board: string): Set;
+  update_board(set: string): Set;
 /**
 * @returns {string}
 */
@@ -38,6 +37,10 @@ export class Set {
 * @returns {string}
 */
   get_board(): string;
+/**
+* @returns {boolean}
+*/
+  is_end(): boolean;
 /**
 * @returns {number}
 */

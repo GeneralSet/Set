@@ -75,7 +75,7 @@ impl Set {
             sets: 0,
         };
         let deck = new_set.init_deck();
-        new_set.update_board(deck, "".to_string())
+        new_set.fill_board(deck, "".to_string())
     }
 
     fn are_options_same_or_different(features: &Vec<&str>) -> bool {
@@ -176,7 +176,11 @@ impl Set {
         }
     }
 
-    pub fn update_board(&self, deck: String, board: String) -> Set {
+    fn next_card_index(&self, deck: Vec<&str>) -> usize {
+        (random_f64() * (deck.len() as f64)).floor() as usize
+    }
+
+    fn fill_board(&self, deck: String, board: String) -> Set {
         let mut board_array: Vec<&str> = Vec::new();
         if board.len() > 1 {
             board_array = board.split(",").collect()
@@ -190,7 +194,7 @@ impl Set {
                 break;
             }
             for _i in 0..self.feature_options {
-                let random_index = (random_f64() * (deck.len() as f64)).floor() as usize;
+                let random_index = self.next_card_index(deck.clone());
                 board_array.push(deck[random_index]);
                 deck.remove(random_index);
             }
@@ -204,6 +208,26 @@ impl Set {
             board: board_array.join(","),
             sets: number_of_sets,
         }
+    }
+
+    pub fn update_board(&self, set: String) -> Set {
+        if !self.is_set(set.clone()) {
+            throw_str("Failed to update board. Invalid set passed to update board");
+        }
+        let set_ids: Vec<&str> = set.split(",").collect();
+        let mut board: Vec<&str> = self.board.split(",").collect();
+        let mut deck: Vec<&str> = self.deck.split(",").collect();
+
+        for i in 0..board.len() {
+            if !set_ids.contains(&board[i]) {
+                continue;
+            }
+            let random_index = self.next_card_index(deck.clone());
+            board[i] = deck[random_index];
+            deck.remove(random_index);
+        }
+
+        self.fill_board(deck.join(","), board.join(","))
     }
 
     pub fn get_deck(&self) -> String {

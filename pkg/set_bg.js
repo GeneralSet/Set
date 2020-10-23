@@ -195,16 +195,13 @@ export class Set {
         }
     }
     /**
-    * @param {string} deck
-    * @param {string} board
+    * @param {string} set
     * @returns {Set}
     */
-    update_board(deck, board) {
-        var ptr0 = passStringToWasm0(deck, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+    update_board(set) {
+        var ptr0 = passStringToWasm0(set, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
         var len0 = WASM_VECTOR_LEN;
-        var ptr1 = passStringToWasm0(board, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-        var len1 = WASM_VECTOR_LEN;
-        var ret = wasm.set_update_board(this.ptr, ptr0, len0, ptr1, len1);
+        var ret = wasm.set_update_board(this.ptr, ptr0, len0);
         return Set.__wrap(ret);
     }
     /**
@@ -238,6 +235,13 @@ export class Set {
             wasm.__wbindgen_export_2.value += 16;
             wasm.__wbindgen_free(r0, r1);
         }
+    }
+    /**
+    * @returns {boolean}
+    */
+    is_end() {
+        var ret = wasm.set_is_end(this.ptr);
+        return ret !== 0;
     }
 }
 
