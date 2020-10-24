@@ -218,24 +218,40 @@ impl Set {
         let mut board: Vec<&str> = self.board.split(",").collect();
         let mut deck: Vec<&str> = self.deck.split(",").collect();
 
+        if deck.len() > 0 {
+            for i in 0..board.len() {
+                if !set_ids.contains(&board[i]) {
+                    continue;
+                }
+                let random_index = self.next_card_index(deck.clone());
+                board[i] = deck[random_index];
+                deck.remove(random_index);
+            }
+            let s = Set {
+                board_size: self.board_size,
+                number_of_features: self.number_of_features,
+                feature_options: self.feature_options,
+                deck: deck.join(","),
+                board: board.join(","),
+                sets: self.number_of_sets(&board),
+            };
+            return s.fill_board(deck.join(","), board.join(","));
+        }
         for i in 0..board.len() {
             if !set_ids.contains(&board[i]) {
                 continue;
             }
-            let random_index = self.next_card_index(deck.clone());
-            board[i] = deck[random_index];
-            deck.remove(random_index);
+            board.remove(i);
         }
 
-        let s = Set {
+        Set {
             board_size: self.board_size,
             number_of_features: self.number_of_features,
             feature_options: self.feature_options,
             deck: deck.join(","),
             board: board.join(","),
-            sets: 0,
-        };
-        s.fill_board(deck.join(","), board.join(","))
+            sets: self.number_of_sets(&board),
+        }
     }
 
     pub fn get_deck(&self) -> String {
