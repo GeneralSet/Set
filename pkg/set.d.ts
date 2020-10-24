@@ -3,7 +3,7 @@
 /**
 * @returns {number}
 */
-export function random_f64(): number;
+export function random(): number;
 /**
 */
 export class Set {

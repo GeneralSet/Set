@@ -20,13 +20,13 @@ pub fn console_log(msg: &str) {
 }
 
 #[cfg(not(target_arch = "wasm32"))]
-pub fn random_f64() -> f64 {
+pub fn random() -> f64 {
     return rand::random::<f64>();
 }
 
 #[cfg(target_arch = "wasm32")]
 #[wasm_bindgen]
-pub fn random_f64() -> f64 {
+pub fn random() -> f64 {
     return js_random();
 }
 
@@ -177,7 +177,7 @@ impl Set {
     }
 
     fn next_card_index(&self, deck: Vec<&str>) -> usize {
-        (random_f64() * (deck.len() as f64)).floor() as usize
+        (random() * deck.len() as f64).floor() as usize
     }
 
     fn fill_board(&self, deck: String, board: String) -> Set {
@@ -215,42 +215,37 @@ impl Set {
             throw_str("Failed to update board. Invalid set passed to update board");
         }
         let set_ids: Vec<&str> = set.split(",").collect();
-        let mut board: Vec<&str> = self.board.split(",").collect();
+        let board: Vec<&str> = self.board.split(",").collect();
         let mut deck: Vec<&str> = self.deck.split(",").collect();
+        let mut new_board: Vec<&str> = Vec::new();
 
-        if deck.len() > 0 {
-            for i in 0..board.len() {
-                if !set_ids.contains(&board[i]) {
-                    continue;
-                }
-                let random_index = self.next_card_index(deck.clone());
-                board[i] = deck[random_index];
-                deck.remove(random_index);
-            }
-            let s = Set {
-                board_size: self.board_size,
-                number_of_features: self.number_of_features,
-                feature_options: self.feature_options,
-                deck: deck.join(","),
-                board: board.join(","),
-                sets: self.number_of_sets(&board),
-            };
-            return s.fill_board(deck.join(","), board.join(","));
-        }
         for i in 0..board.len() {
             if !set_ids.contains(&board[i]) {
+                new_board.push(board[i]);
                 continue;
             }
-            board.remove(i);
+            if deck.len() == 0 {
+                continue;
+            }
+            if board.len() > self.board_size {
+                continue;
+            }
+            let random_index = self.next_card_index(deck.clone());
+            new_board.push(deck[random_index]);
+            deck.remove(random_index);
         }
-
-        Set {
+        let s = Set {
             board_size: self.board_size,
             number_of_features: self.number_of_features,
             feature_options: self.feature_options,
             deck: deck.join(","),
-            board: board.join(","),
-            sets: self.number_of_sets(&board),
+            board: new_board.join(","),
+            sets: self.number_of_sets(&new_board),
+        };
+        if deck.len() > 0 {
+            return s.fill_board(deck.join(","), new_board.join(","));
+        } else {
+            return s;
         }
     }
 
@@ -321,19 +316,34 @@ mod tests {
     }
 
     #[test]
-    fn test_update_board() {
+    #[should_panic]
+    fn test_update_board_invalid_set() {
+        let set = Set::new(4, 3);
+
+        set.update_board("0_0_0_1,1_1_1_1,4_4_4_4".to_string());
+    }
+
+    #[test]
+    fn test_update_board_empty_deck() {
         let mut set = Set::new(4, 3);
-        let hint = set.hint(set.board.clone());
-        set = set.update_board(hint);
-        let new_deck: Vec<&str> = set.deck.split(",").collect();
-        assert_eq!(new_deck.len(), 66);
-        let hint = set.hint(set.board.clone());
-        set = set.update_board(hint);
-        let new_deck: Vec<&str> = set.deck.split(",").collect();
-        assert_eq!(new_deck.len(), 63);
-        let hint = set.hint(set.board.clone());
-        set = set.update_board(hint);
-        let new_deck: Vec<&str> = set.deck.split(",").collect();
-        assert_eq!(new_deck.len(), 60);
+        set.deck = "".to_string();
+        let valid_set = "0_0_0_0,1_1_1_1,2_2_2_2";
+        set.board = valid_set.to_string();
+
+        set = set.update_board(valid_set.to_string());
+
+        assert_eq!(set.get_deck(), "");
+        assert_eq!(set.get_board(), "");
+    }
+
+    #[test]
+    fn test_update_board_goes_back_to_default_size() {
+        let mut set = Set::new(4, 3);
+        let fifteen_cards = "0_0_0_0,0_0_0_1,0_0_0_2,0_0_1_0,0_0_1_1,0_0_1_2,0_0_2_0,0_0_2_1,0_0_2_2,0_1_0_0,0_1_0_1,0_1_0_2,0_1_1_0,0_1_1_1,0_1_1_2";
+        set.board = fifteen_cards.to_string();
+        set = set.update_board("0_0_0_0,0_0_0_1,0_0_0_2".to_string());
+
+        let new_board: Vec<&str> = set.board.split(",").collect();
+        assert_eq!(new_board.len(), 12);
     }
 }

@@ -20,8 +20,8 @@ function notDefined(what) { return () => { throw new Error(`${what} is not defin
 /**
 * @returns {number}
 */
-export function random_f64() {
-    var ret = wasm.random_f64();
+export function random() {
+    var ret = wasm.random();
     return ret;
 }
 

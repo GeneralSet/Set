@@ -17,7 +17,7 @@ export function set_update_board(a: number, b: number, c: number): number;
 export function set_get_deck(a: number, b: number): void;
 export function set_get_board(a: number, b: number): void;
 export function set_is_end(a: number): number;
-export function random_f64(): number;
+export function random(): number;
 export function __wbindgen_malloc(a: number): number;
 export function __wbindgen_realloc(a: number, b: number, c: number): number;
 export function __wbindgen_free(a: number, b: number): void;
