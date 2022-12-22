@@ -11,6 +11,9 @@ jobs:
           name: Set Target
           command: "rustup target add wasm32-unknown-unknown"
       - run:
+          name: Use nightly
+          command: "rustup install nightly"
+      - run:
           name: install
           command: "cargo install --force wasm-pack"
       - run:

@@ -1,6 +1,7 @@
 [package]
 name = "set"
 version = "0.1.0"
+resolver = "2"
 authors = ["Tim <hello@timothy.best>"]
 description = "Internal game logic for set"
 license = "MIT/Apache-2.0"
