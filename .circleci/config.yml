@@ -6,16 +6,21 @@ jobs:
       - image: cimg/rust:1.50.0
     steps:
       - checkout
-      - run: cargo --version
       - run:
-          name: Set Target
-          command: "rustup target add wasm32-unknown-unknown"
-      - run:
-          name: Use nightly
-          command: "rustup install nightly"
-      - run:
-          name: install
-          command: "cargo install"
-      - run:
-          name: Run Tests
-          command: "cargo test"
+          name: test
+          command: |
+            rustup target add wasm32-unknown-unknown
+            rustup run nightly cargo install
+            rustup run nightly cargo test
+      # - run:
+      #     name: Set Target
+      #     command: "rustup "
+      # - run:
+      #     name: Use nightly
+      #     command: "rustup install nightly"
+      # - run:
+      #     name: install
+      #     command: "cargo install"
+      # - run:
+      #     name: Run Tests
+      #     command: "cargo test"
