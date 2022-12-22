@@ -15,7 +15,7 @@ jobs:
           command: "rustup install nightly"
       - run:
           name: install
-          command: "cargo install --force wasm-pack"
+          command: "cargo install"
       - run:
           name: Run Tests
           command: "cargo test"
