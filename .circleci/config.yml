@@ -9,6 +9,7 @@ jobs:
       - run:
           name: test
           command: |
+            rustup install nightly
             rustup target add wasm32-unknown-unknown
             rustup run nightly cargo install
             rustup run nightly cargo test
