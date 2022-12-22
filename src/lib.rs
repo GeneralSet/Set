@@ -337,6 +337,21 @@ mod tests {
     }
 
     #[test]
+    fn test_update_board_no_cards_in_deck() {
+        let mut set = Set::new(3, 3);
+        set.deck = "".to_string();
+        set.board =
+            "0_0_0,2_2_0,2_0_1,2_2_1,0_1_1,2_0_0,0_2_1,1_1_2,1_1_1,1_0_0,0_1_0,1_2_2".to_string();
+        set = set.update_board("0_0_0,1_0_0,2_0_0".to_string());
+
+        assert_eq!(set.get_deck(), "");
+        assert_eq!(
+            set.get_board(),
+            "2_2_0,2_0_1,2_2_1,0_1_1,0_2_1,1_1_2,1_1_1,0_1_0,1_2_2"
+        );
+    }
+
+    #[test]
     fn test_update_board_goes_back_to_default_size() {
         let mut set = Set::new(4, 3);
         let fifteen_cards = "0_0_0_0,0_0_0_1,0_0_0_2,0_0_1_0,0_0_1_1,0_0_1_2,0_0_2_0,0_0_2_1,0_0_2_2,0_1_0_0,0_1_0_1,0_1_0_2,0_1_1_0,0_1_1_1,0_1_1_2";
