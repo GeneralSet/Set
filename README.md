@@ -24,7 +24,6 @@ cargo test
 ## Demo
 
 ```
-
 cd demo
 yarn
 yarn serve

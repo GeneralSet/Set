@@ -24,8 +24,8 @@ cargo test
 ## Demo
 
 ```
+cd demo
 yarn
-cd demo && yarn && cd ..
 yarn serve
 ```
 
