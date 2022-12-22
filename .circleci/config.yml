@@ -10,7 +10,7 @@ jobs:
           name: test
           command: |
             rustup install nightly
-            cargo test
+            cargo +nightly test
       # - run:
       #     name: Set Target
       #     command: "rustup "
