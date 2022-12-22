@@ -42,6 +42,10 @@ pub struct Set {
 
 #[wasm_bindgen]
 impl Set {
+    fn string_to_vec<'a>(value: &'a String) -> Vec<&'a str> {
+        return value.split(",").skip_while(|x| x.is_empty()).collect();
+    }
+
     fn generate_id(args: Vec<usize>) -> String {
         let string_args: Vec<String> = args.iter().map(|a| a.to_string()).collect();
         string_args.join("_")
@@ -216,7 +220,7 @@ impl Set {
         }
         let set_ids: Vec<&str> = set.split(",").collect();
         let board: Vec<&str> = self.board.split(",").collect();
-        let mut deck: Vec<&str> = self.deck.split(",").collect();
+        let mut deck: Vec<&str> = Set::string_to_vec(&self.deck);
         let mut new_board: Vec<&str> = Vec::new();
 
         for i in 0..board.len() {
