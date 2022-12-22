@@ -69,9 +69,9 @@ impl Set {
         self.generate_ids(self.number_of_features, Vec::new(), Vec::new())
     }
 
-    pub fn new(number_of_features: usize, feature_options: usize) -> Set {
+    pub fn new(number_of_features: usize, feature_options: usize, board_size: usize) -> Set {
         let new_set = Set {
-            board_size: 12,
+            board_size: board_size,
             number_of_features: number_of_features,
             feature_options: feature_options,
             deck: "".to_string(),
@@ -293,7 +293,7 @@ mod tests {
 
     #[test]
     fn number_of_sets() {
-        let set = Set::new(4, 3);
+        let set = Set::new(4, 3, 12);
         assert_eq!(
             set.number_of_sets(&vec!["0_0_0_0", "1_1_1_1", "2_2_2_2", "2_2_2_1", "2_2_2_0"]),
             2
@@ -303,33 +303,33 @@ mod tests {
     #[test]
     #[should_panic]
     fn test_is_set_selection_to_small() {
-        let set = Set::new(4, 3);
+        let set = Set::new(4, 3, 12);
         set.is_set("0_0_0_0,1_1_1_1".to_string());
     }
 
     #[test]
     fn test_is_set_all_different() {
-        let set = Set::new(4, 3);
+        let set = Set::new(4, 3, 12);
         assert_eq!(set.is_set("0_0_0_0,1_1_1_1,2_2_2_2".to_string()), true);
     }
 
     #[test]
     fn test_is_set_invalid_set() {
-        let set = Set::new(4, 3);
+        let set = Set::new(4, 3, 12);
         assert_eq!(set.is_set("0_0_0_1,1_1_1_1,2_2_2_2".to_string()), false);
     }
 
     #[test]
     #[should_panic]
     fn test_update_board_invalid_set() {
-        let set = Set::new(4, 3);
+        let set = Set::new(4, 3, 12);
 
         set.update_board("0_0_0_1,1_1_1_1,4_4_4_4".to_string());
     }
 
     #[test]
     fn test_update_board_empty_deck() {
-        let mut set = Set::new(4, 3);
+        let mut set = Set::new(4, 3, 12);
         set.deck = "".to_string();
         let valid_set = "0_0_0_0,1_1_1_1,2_2_2_2";
         set.board = valid_set.to_string();
@@ -342,7 +342,7 @@ mod tests {
 
     #[test]
     fn test_update_board_no_cards_in_deck() {
-        let mut set = Set::new(3, 3);
+        let mut set = Set::new(3, 3, 9);
         set.deck = "".to_string();
         set.board =
             "0_0_0,2_2_0,2_0_1,2_2_1,0_1_1,2_0_0,0_2_1,1_1_2,1_1_1,1_0_0,0_1_0,1_2_2".to_string();
@@ -357,7 +357,7 @@ mod tests {
 
     #[test]
     fn test_update_board_goes_back_to_default_size() {
-        let mut set = Set::new(4, 3);
+        let mut set = Set::new(4, 3, 12);
         let fifteen_cards = "0_0_0_0,0_0_0_1,0_0_0_2,0_0_1_0,0_0_1_1,0_0_1_2,0_0_2_0,0_0_2_1,0_0_2_2,0_1_0_0,0_1_0_1,0_1_0_2,0_1_1_0,0_1_1_1,0_1_1_2";
         set.board = fifteen_cards.to_string();
         set = set.update_board("0_0_0_0,0_0_0_1,0_0_0_2".to_string());

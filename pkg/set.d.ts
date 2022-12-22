@@ -11,9 +11,10 @@ export class Set {
 /**
 * @param {number} number_of_features
 * @param {number} feature_options
+* @param {number} board_size
 * @returns {Set}
 */
-  static new(number_of_features: number, feature_options: number): Set;
+  static new(number_of_features: number, feature_options: number, board_size: number): Set;
 /**
 * @param {string} ids
 * @returns {boolean}

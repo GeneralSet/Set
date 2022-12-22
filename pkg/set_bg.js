@@ -25,6 +25,10 @@ export function random() {
     return ret;
 }
 
+function _assertNum(n) {
+    if (typeof(n) !== 'number') throw new Error('expected a number argument');
+}
+
 let WASM_VECTOR_LEN = 0;
 
 let cachedTextEncoder = new TextEncoder('utf-8');
@@ -43,6 +47,8 @@ const encodeString = (typeof cachedTextEncoder.encodeInto === 'function'
 });
 
 function passStringToWasm0(arg, malloc, realloc) {
+
+    if (typeof(arg) !== 'string') throw new Error('expected a string argument');
 
     if (realloc === undefined) {
         const buf = cachedTextEncoder.encode(arg);
@@ -72,7 +78,7 @@ function passStringToWasm0(arg, malloc, realloc) {
         ptr = realloc(ptr, len, len = offset + arg.length * 3);
         const view = getUint8Memory0().subarray(ptr + offset, ptr + len);
         const ret = encodeString(arg, view);
-
+        if (ret.read !== arg.length) throw new Error('failed to pass whole string');
         offset += ret.written;
     }
 
@@ -91,6 +97,10 @@ function getInt32Memory0() {
 */
 export class Set {
 
+    constructor() {
+        throw new Error('cannot invoke `new` directly');
+    }
+
     static __wrap(ptr) {
         const obj = Object.create(Set.prototype);
         obj.ptr = ptr;
@@ -108,6 +118,8 @@ export class Set {
     * @returns {number}
     */
     get board_size() {
+        if (this.ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.ptr);
         var ret = wasm.__wbg_get_set_board_size(this.ptr);
         return ret >>> 0;
     }
@@ -115,12 +127,17 @@ export class Set {
     * @param {number} arg0
     */
     set board_size(arg0) {
+        if (this.ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.ptr);
+        _assertNum(arg0);
         wasm.__wbg_set_set_board_size(this.ptr, arg0);
     }
     /**
     * @returns {number}
     */
     get number_of_features() {
+        if (this.ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.ptr);
         var ret = wasm.__wbg_get_set_number_of_features(this.ptr);
         return ret >>> 0;
     }
@@ -128,12 +145,17 @@ export class Set {
     * @param {number} arg0
     */
     set number_of_features(arg0) {
+        if (this.ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.ptr);
+        _assertNum(arg0);
         wasm.__wbg_set_set_number_of_features(this.ptr, arg0);
     }
     /**
     * @returns {number}
     */
     get feature_options() {
+        if (this.ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.ptr);
         var ret = wasm.__wbg_get_set_feature_options(this.ptr);
         return ret >>> 0;
     }
@@ -141,12 +163,17 @@ export class Set {
     * @param {number} arg0
     */
     set feature_options(arg0) {
+        if (this.ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.ptr);
+        _assertNum(arg0);
         wasm.__wbg_set_set_feature_options(this.ptr, arg0);
     }
     /**
     * @returns {number}
     */
     get sets() {
+        if (this.ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.ptr);
         var ret = wasm.__wbg_get_set_sets(this.ptr);
         return ret >>> 0;
     }
@@ -154,15 +181,22 @@ export class Set {
     * @param {number} arg0
     */
     set sets(arg0) {
+        if (this.ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.ptr);
+        _assertNum(arg0);
         wasm.__wbg_set_set_sets(this.ptr, arg0);
     }
     /**
     * @param {number} number_of_features
     * @param {number} feature_options
+    * @param {number} board_size
     * @returns {Set}
     */
-    static new(number_of_features, feature_options) {
-        var ret = wasm.set_new(number_of_features, feature_options);
+    static new(number_of_features, feature_options, board_size) {
+        _assertNum(number_of_features);
+        _assertNum(feature_options);
+        _assertNum(board_size);
+        var ret = wasm.set_new(number_of_features, feature_options, board_size);
         return Set.__wrap(ret);
     }
     /**
@@ -170,6 +204,8 @@ export class Set {
     * @returns {boolean}
     */
     is_set(ids) {
+        if (this.ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.ptr);
         var ptr0 = passStringToWasm0(ids, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
         var len0 = WASM_VECTOR_LEN;
         var ret = wasm.set_is_set(this.ptr, ptr0, len0);
@@ -181,8 +217,10 @@ export class Set {
     */
     hint(board) {
         try {
+            if (this.ptr == 0) throw new Error('Attempt to use a moved value');
             const retptr = wasm.__wbindgen_export_2.value - 16;
             wasm.__wbindgen_export_2.value = retptr;
+            _assertNum(this.ptr);
             var ptr0 = passStringToWasm0(board, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
             var len0 = WASM_VECTOR_LEN;
             wasm.set_hint(retptr, this.ptr, ptr0, len0);
@@ -199,6 +237,8 @@ export class Set {
     * @returns {Set}
     */
     update_board(set) {
+        if (this.ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.ptr);
         var ptr0 = passStringToWasm0(set, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
         var len0 = WASM_VECTOR_LEN;
         var ret = wasm.set_update_board(this.ptr, ptr0, len0);
@@ -209,8 +249,10 @@ export class Set {
     */
     get_deck() {
         try {
+            if (this.ptr == 0) throw new Error('Attempt to use a moved value');
             const retptr = wasm.__wbindgen_export_2.value - 16;
             wasm.__wbindgen_export_2.value = retptr;
+            _assertNum(this.ptr);
             wasm.set_get_deck(retptr, this.ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
@@ -225,8 +267,10 @@ export class Set {
     */
     get_board() {
         try {
+            if (this.ptr == 0) throw new Error('Attempt to use a moved value');
             const retptr = wasm.__wbindgen_export_2.value - 16;
             wasm.__wbindgen_export_2.value = retptr;
+            _assertNum(this.ptr);
             wasm.set_get_board(retptr, this.ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
@@ -240,6 +284,8 @@ export class Set {
     * @returns {boolean}
     */
     is_end() {
+        if (this.ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.ptr);
         var ret = wasm.set_is_end(this.ptr);
         return ret !== 0;
     }

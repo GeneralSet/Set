@@ -4,6 +4,11 @@
 
 Core game logic for generalset.io
 
+## Setup
+
+1. [Install Yarn](https://classic.yarnpkg.com/lang/en/docs/install/)
+2. [Intsall Rust](https://www.rust-lang.org/tools/install)
+
 ## rust-wasm docs
 
 ```
@@ -19,6 +24,8 @@ cargo test
 ## Demo
 
 ```
+
+cd demo
 yarn
 yarn serve
 ```
