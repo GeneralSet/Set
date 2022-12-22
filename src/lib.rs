@@ -161,7 +161,7 @@ impl Set {
     }
 
     pub fn hint(&self, board: String) -> String {
-        let board: Vec<&str> = board.split(",").collect();
+        let board: Vec<&str> = Set::string_to_vec(&board);
         match self.find_sets(&board, vec![], 0) {
             Some(valid_sets) => match valid_sets.clone().pop() {
                 Some(set) => return set,
@@ -187,9 +187,9 @@ impl Set {
     fn fill_board(&self, deck: String, board: String) -> Set {
         let mut board_array: Vec<&str> = Vec::new();
         if board.len() > 1 {
-            board_array = board.split(",").collect()
+            board_array = Set::string_to_vec(&board)
         }
-        let mut deck: Vec<&str> = deck.split(",").collect();
+        let mut deck: Vec<&str> = Set::string_to_vec(&deck);
 
         let mut number_of_sets = self.number_of_sets(&board_array);
         while board_array.len() < self.board_size || number_of_sets < 1 {
@@ -218,8 +218,8 @@ impl Set {
         if !self.is_set(set.clone()) {
             throw_str("Failed to update board. Invalid set passed to update board");
         }
-        let set_ids: Vec<&str> = set.split(",").collect();
-        let board: Vec<&str> = self.board.split(",").collect();
+        let set_ids: Vec<&str> = Set::string_to_vec(&set);
+        let board: Vec<&str> = Set::string_to_vec(&self.board);
         let mut deck: Vec<&str> = Set::string_to_vec(&self.deck);
         let mut new_board: Vec<&str> = Vec::new();
 
@@ -362,7 +362,7 @@ mod tests {
         set.board = fifteen_cards.to_string();
         set = set.update_board("0_0_0_0,0_0_0_1,0_0_0_2".to_string());
 
-        let new_board: Vec<&str> = set.board.split(",").collect();
+        let new_board: Vec<&str> = Set::string_to_vec(&set.board);
         assert_eq!(new_board.len(), 12);
     }
 }
