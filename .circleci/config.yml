@@ -9,4 +9,5 @@ jobs:
       - run:
           name: test
           command: |
+            rustup install nightly
             cargo +nightly test
