@@ -1,0 +1,22 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: cimg/rust:1.50.0
+    steps:
+      - checkout
+      - run: cargo --version
+      - run:
+          name: Set Target
+          command: "rustup target add wasm32-unknown-unknown"
+      - run:
+          name: Use nightly
+          command: "rustup install nightly"
+      - run:
+          name: install
+          command: "cargo install --force wasm-pack"
+      - run:
+          name: Run Tests
+          command: "cargo test"
+
