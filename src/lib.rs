@@ -1,9 +1,13 @@
+extern crate getrandom;
 extern crate rand;
+// extern crate serde_wasm_bindgen;
+// extern crate serde;
 extern crate wasm_bindgen;
 
 use std::collections::HashMap;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::throw_str;
+// use serde::{Serialize, Deserialize};
 
 #[cfg(target_arch = "wasm32")]
 #[wasm_bindgen]
@@ -69,6 +73,7 @@ impl Set {
         self.generate_ids(self.number_of_features, Vec::new(), Vec::new())
     }
 
+    #[wasm_bindgen(constructor)]
     pub fn new(number_of_features: usize, feature_options: usize, board_size: usize) -> Set {
         let new_set = Set {
             board_size: board_size,

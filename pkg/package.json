@@ -13,9 +13,13 @@
   "files": [
     "set_bg.wasm",
     "set.js",
+    "set_bg.js",
     "set.d.ts"
   ],
   "module": "set.js",
   "types": "set.d.ts",
-  "sideEffects": "false"
+  "sideEffects": [
+    "./set.js",
+    "./snippets/*"
+  ]
 }

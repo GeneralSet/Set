@@ -12,9 +12,8 @@ export class Set {
 * @param {number} number_of_features
 * @param {number} feature_options
 * @param {number} board_size
-* @returns {Set}
 */
-  static new(number_of_features: number, feature_options: number, board_size: number): Set;
+  constructor(number_of_features: number, feature_options: number, board_size: number);
 /**
 * @param {string} ids
 * @returns {boolean}
@@ -43,19 +42,15 @@ export class Set {
 */
   is_end(): boolean;
 /**
-* @returns {number}
 */
   board_size: number;
 /**
-* @returns {number}
 */
   feature_options: number;
 /**
-* @returns {number}
 */
   number_of_features: number;
 /**
-* @returns {number}
 */
   sets: number;
 }
