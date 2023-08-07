@@ -14,7 +14,7 @@
   "main": "pkg/set.js",
   "scripts": {
     "build-dev": "wasm-pack build --dev && rm pkg/.gitignore",
-    "build-prod": "wasm-pack build --release  && rm pkg/.gitignore",
+    "build-prod": "wasm-pack build --release && rm pkg/.gitignore",
     "build": "yarn build-prod",
     "preserve": "yarn build-dev"
   },
