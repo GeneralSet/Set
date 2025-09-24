@@ -2,7 +2,7 @@
 name = "set"
 version = "0.1.0"
 resolver = "2"
-authors = ["Tim <hello@timothy.best>"]
+authors = ["Tim <generalSet@timothy.best>"]
 description = "Internal game logic for set"
 license = "MIT/Apache-2.0"
 repository = "https://github.com/GeneralSet/Set"
@@ -13,8 +13,6 @@ include = ["Cargo.toml", "src/**/*.rs", "README.md"]
 crate-type = ["cdylib", "lib"]
 
 [dependencies]
-# serde = { version = "1.0", features = ["derive"] }
-# serde-wasm-bindgen = "0.4"
 wasm-bindgen = "0.2"
-getrandom = { version = "0.2", features = ["js"] }
+getrandom = { version = "^0.3.3", features = ["wasm_js"] }
 rand = "*"

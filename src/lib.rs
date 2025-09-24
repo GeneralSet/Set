@@ -1,13 +1,10 @@
 extern crate getrandom;
 extern crate rand;
-// extern crate serde_wasm_bindgen;
-// extern crate serde;
 extern crate wasm_bindgen;
 
 use std::collections::HashMap;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::throw_str;
-// use serde::{Serialize, Deserialize};
 
 #[cfg(target_arch = "wasm32")]
 #[wasm_bindgen]
