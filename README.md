@@ -8,6 +8,8 @@ The core game logic for (GeneralSet.io)[http://generalset.io/]
 
 1. [Install Yarn](https://classic.yarnpkg.com/lang/en/docs/install/)
 2. [Install Rust](https://www.rust-lang.org/tools/install)
+`cargo build`
+
 
 ## rust-wasm docs
 
@@ -26,7 +28,7 @@ cargo test
 ```
 cd demo
 yarn
-yarn serve
+yarn start
 ```
 
 goto http://localhost:8080/
